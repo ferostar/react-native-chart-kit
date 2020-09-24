@@ -43,7 +43,8 @@ export interface ChartConfig {
    */
   backgroundGradientToOpacity?: number;
   fillShadowGradient?: string;
-  fillShadowGradientOpacity?: number;
+  foregroundGradientFromOpacity?: number;
+  foregroundGradientToOpacity?: number;
   /**
    * Defines the option to use color from dataset to each chart data
    */

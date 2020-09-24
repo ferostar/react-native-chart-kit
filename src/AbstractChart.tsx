@@ -336,7 +336,8 @@ class AbstractChart<
         | "backgroundGradientFromOpacity"
         | "backgroundGradientToOpacity"
         | "fillShadowGradient"
-        | "fillShadowGradientOpacity"
+        | "foregroundGradientFromOpacity"
+        | "foregroundGradientToOpacity"
       >,
       | "width"
       | "height"
@@ -347,7 +348,8 @@ class AbstractChart<
       | "backgroundGradientFromOpacity"
       | "backgroundGradientToOpacity"
       | "fillShadowGradient"
-      | "fillShadowGradientOpacity"
+      | "foregroundGradientFromOpacity"
+      | "foregroundGradientToOpacity"
     >
   ) => {
     const {
@@ -370,11 +372,17 @@ class AbstractChart<
       ? config.fillShadowGradient
       : this.props.chartConfig.color(1.0);
 
-    const fillShadowGradientOpacity = config.hasOwnProperty(
-      "fillShadowGradientOpacity"
+    const foregroundGradientFromOpacity = config.hasOwnProperty(
+      "foregroundGradientFromOpacity"
     )
-      ? config.fillShadowGradientOpacity
+      ? config.foregroundGradientFromOpacity
       : 0.1;
+
+    const foregroundGradientToOpacity = config.hasOwnProperty(
+      "foregroundGradientToOpacity"
+    )
+      ? config.foregroundGradientToOpacity
+      : 0.0;
 
     return (
       <Defs>
@@ -413,16 +421,16 @@ class AbstractChart<
                 stopColor={
                   dataset.color ? dataset.color(1.0) : fillShadowGradient
                 }
-                stopOpacity={fillShadowGradientOpacity}
+                stopOpacity={foregroundGradientFromOpacity}
               />
               <Stop
                 offset="1"
                 stopColor={
                   dataset.color
-                    ? dataset.color(fillShadowGradientOpacity)
+                    ? dataset.color(foregroundGradientFromOpacity)
                     : fillShadowGradient
                 }
-                stopOpacity="0"
+                stopOpacity={foregroundGradientToOpacity}
               />
             </LinearGradient>
           ))
@@ -438,9 +446,13 @@ class AbstractChart<
             <Stop
               offset="0"
               stopColor={fillShadowGradient}
-              stopOpacity={fillShadowGradientOpacity}
+              stopOpacity={foregroundGradientFromOpacity}
             />
-            <Stop offset="1" stopColor={fillShadowGradient} stopOpacity="0" />
+            <Stop
+              offset="1"
+              stopColor={fillShadowGradient}
+              stopOpacity={foregroundGradientToOpacity}
+            />
           </LinearGradient>
         )}
       </Defs>
